@@ -503,4 +503,4 @@ content/
 
 ## License
 
-Private.
+MIT. See [LICENSE](LICENSE).
