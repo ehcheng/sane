@@ -1,0 +1,7 @@
+#!/bin/sh
+# Auto-update build-number file with the commit count.
+# next.config.js reads this to set NEXT_PUBLIC_APP_VERSION in Docker builds
+# where .git is unavailable.
+count=$(git rev-list --count HEAD)
+echo $((count + 1)) > build-number
+git add build-number

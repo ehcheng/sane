@@ -1,0 +1,24 @@
+FROM node:20-alpine
+RUN apk add --no-cache openssl
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+COPY prisma ./prisma/
+
+# Install all deps (prisma CLI + tsx are devDeps needed for build/runtime).
+# postinstall runs prisma generate automatically.
+RUN npm ci
+
+COPY tsconfig.json ./
+COPY app.config.defaults.ts ./
+COPY src ./src
+
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 worker
+
+USER worker
+
+ENV NODE_ENV=production
+
+CMD ["./node_modules/.bin/tsx", "src/worker/index.ts"]

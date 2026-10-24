@@ -1,0 +1,91 @@
+{
+  "name": "Sample School Fixture",
+  "description": "Minimal example fixture demonstrating all supported fields. Copy this file and customize for your test cases.",
+
+  "user": {
+    "email": "parent@example.com",
+    "name": "Jane Doe",
+    "summaryStyle": "CONCISE"
+  },
+
+  "children": [
+    {
+      "name": "Alex Doe",
+      "grade": "3rd",
+      "className": "Room 12",
+      "teachers": ["Ms. Smith", "Mr. Jones (math)"],
+      "additionalInfo": null
+    },
+    {
+      "name": "Sam Doe",
+      "grade": "kindergarten",
+      "className": "Butterflies",
+      "teachers": ["Mrs. Lee"],
+      "additionalInfo": "Has a peanut allergy"
+    }
+  ],
+
+  "ignoredActivities": ["Chess Club", "Band"],
+
+  "aiConfig": {
+    "provider": "openai",
+    "model": "gpt-4.1",
+    "visionModel": null
+  },
+
+  "promptInstructions": {
+    "system": "You are an AI assistant helping parents filter school emails. Analyze the following email and determine if it contains actionable information for any of the following children.",
+    "relevance": "Set send=true if the email contains actionable info (events, deadlines, required actions, schedule changes) for the listed children.",
+    "summaryConcise": "If send=true, provide a clear subject line and a concise, 2-3 bullet-point summary highlighting required actions. Use short bullets, no prose.",
+    "responseFormat": "Respond with JSON: { \"send\": boolean, \"subject\": string or null, \"summary\": string or null, \"children\": array of child names this email is about, or null }.",
+    "noSend": "If send=false, no subject or summary needed."
+  },
+
+  "testEmails": [
+    {
+      "id": 1,
+      "description": "Actionable: class-specific DOCX with deadline. Should send for Alex only.",
+      "from": "Ms. Smith <smith@school.org>",
+      "to": "Room 12 Families",
+      "subject": "Science Fair Guidelines",
+      "body": "Hello Room 12 families,\n\nPlease find attached the guidelines for our upcoming Science Fair. Topic proposals are due by November 15th.\n\nBest,\nMs. Smith",
+      "attachments": ["attachments/science_fair.docx"],
+      "expectedOutcome": {
+        "send": true,
+        "children": ["Alex Doe"],
+        "attachmentCount": 1,
+        "imageCount": 0
+      }
+    },
+    {
+      "id": 2,
+      "description": "Informational only: school garden photos. No action needed, should not send.",
+      "from": "Principal <principal@school.org>",
+      "to": "All Families",
+      "subject": "Garden Harvest Photos",
+      "body": "Dear families,\n\nOur students had a wonderful fall harvest! See the attached photos.\n\nWarm regards,\nPrincipal Johnson",
+      "attachments": ["attachments/garden_photo.jpg"],
+      "expectedOutcome": {
+        "send": false,
+        "children": null,
+        "attachmentCount": 1,
+        "imageCount": 1
+      }
+    },
+    {
+      "id": 3,
+      "description": "Actionable for both kids: whole-school event with PDF + image. Multi-attachment test.",
+      "from": "Front Office <office@school.org>",
+      "to": "All Families",
+      "subject": "Picture Day - November 5",
+      "body": "Dear families,\n\nPicture Day is coming! Please see the attached order form and sample photo.\n\nBest,\nFront Office",
+      "attachments": ["attachments/picture_day_form.pdf", "attachments/sample_photo.png"],
+      "expectedOutcome": {
+        "send": true,
+        "children": ["Alex Doe", "Sam Doe"],
+        "attachmentCount": 2,
+        "imageCount": 1
+      }
+    }
+  ]
+}

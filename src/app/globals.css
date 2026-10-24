@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+    --primary: 220.9 39.3% 11%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 224 71.4% 4.1%;
+    --radius: 0.5rem;
+    --mobile-tab-bar-h: 49px;
+  }
+
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 210 20% 98%;
+    --primary-foreground: 220.9 39.3% 11%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 216 12.2% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  /* Prevent pull-to-refresh conflicts and scroll chaining */
+  html, body {
+    overscroll-behavior-y: contain;
+  }
+  /* Disable double-tap zoom on interactive elements */
+  button, a, [role="button"], input, select, textarea, label {
+    touch-action: manipulation;
+  }
+}
+
+/* ---- Safe area utilities (for PWA standalone / notch devices) ---- */
+@layer utilities {
+  .pt-safe { padding-top: env(safe-area-inset-top); }
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+  .pl-safe { padding-left: env(safe-area-inset-left); }
+  .pr-safe { padding-right: env(safe-area-inset-right); }
+  .mt-safe { margin-top: env(safe-area-inset-top); }
+  .mb-safe { margin-bottom: env(safe-area-inset-bottom); }
+  .h-safe-top { height: env(safe-area-inset-top); }
+  .h-safe-bottom { height: env(safe-area-inset-bottom); }
+  .top-safe { top: env(safe-area-inset-top); }
+  .bottom-safe { bottom: env(safe-area-inset-bottom); }
+  .min-h-safe-top { min-height: env(safe-area-inset-top); }
+  .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+  /* Tabular figures for time columns */
+  .tabular-nums { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+}
+
+/* Highlight animation for scroll-to-activity links */
+@keyframes activity-highlight-fade {
+  0% { background-color: hsl(210 100% 90%); box-shadow: 0 0 0 2px hsl(210 100% 70%); }
+  70% { background-color: hsl(210 100% 90%); box-shadow: 0 0 0 2px hsl(210 100% 70%); }
+  100% { background-color: transparent; box-shadow: none; }
+}
+.dark .activity-highlight {
+  animation: activity-highlight-fade-dark 3s ease-out forwards;
+}
+@keyframes activity-highlight-fade-dark {
+  0% { background-color: hsl(210 60% 25%); box-shadow: 0 0 0 2px hsl(210 60% 40%); }
+  70% { background-color: hsl(210 60% 25%); box-shadow: 0 0 0 2px hsl(210 60% 40%); }
+  100% { background-color: transparent; box-shadow: none; }
+}
+.activity-highlight {
+  animation: activity-highlight-fade 3s ease-out forwards;
+}
+
+/* ---- Agenda view design tokens ---- */
+/* Defined on :root so portal-rendered content (sheets, modals) can access them.
+   The .agenda class applies font-size, background, and color for scoping. */
+:root {
+  --agenda-text-xs: 0.778rem;
+  --agenda-text-sm: 0.889rem;
+  --agenda-text-base: 1rem;
+  --agenda-text-event-title: 1.222rem;
+  --agenda-text-day-header: 1.556rem;
+  --agenda-text-hero: 2rem;
+  --agenda-leading-body: 1.55;
+  --agenda-leading-tight: 1.2;
+
+  --agenda-bg: #FAFAF7;
+  --agenda-surface: #FFFFFF;
+  --agenda-ink: #1A1F23;
+  --agenda-ink-muted: #5C6770;
+  --agenda-divider: rgba(0, 0, 0, 0.06);
+
+  --agenda-accent: #5BA4B5;
+  --agenda-accent-ink: #2F6E7C;
+  --agenda-success: #2D7A4F;
+  --agenda-danger: #A8331F;
+  --agenda-pending: #8C5B0F;
+
+  --agenda-touch-min: 56px;
+  --agenda-touch-primary: 64px;
+  --agenda-gutter: 20px;
+  --agenda-time-col: 72px;
+}
+
+.dark {
+  --agenda-bg: #121418;
+  --agenda-surface: #1A1E24;
+  --agenda-ink: #E8EAED;
+  --agenda-ink-muted: #9AA0A8;
+  --agenda-divider: rgba(255, 255, 255, 0.08);
+
+  --agenda-accent: #2A8A9A;
+  --agenda-accent-ink: #9DD6E3;
+  --agenda-success: #1B7A3D;
+  --agenda-danger: #DC2626;
+  --agenda-pending: #FBBF24;
+}
+
+.agenda {
+  font-size: 18px;
+  background: var(--agenda-bg);
+  color: var(--agenda-ink);
+  line-height: var(--agenda-leading-body);
+}
+
+/* Scale up the shared EventEditForm when rendered inside the agenda view. */
+.agenda input[type="text"],
+.agenda textarea {
+  font-size: var(--agenda-text-base) !important;
+  padding: 0.75rem !important;
+}
+/* Reset segmented date/time selector inputs (inside inline-flex wrappers) */
+.agenda .inline-flex input[type="text"] {
+  font-size: inherit !important;
+  padding: 0 !important;
+}
+.agenda input[type="checkbox"] {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+}
+.agenda textarea {
+  min-height: 104px;
+}
+.agenda label {
+  font-size: var(--agenda-text-sm) !important;
+}
+
+/* Details summary highlight */
+.agenda-details-bg {
+  background: #F5F0E8;
+}
+.dark .agenda-details-bg {
+  background: #1E1C18;
+}
+
+/* Portal-rendered agenda content (sheets, modals) needs font-size and text color */
+[data-vaul-drawer], [data-vaul-overlay],
+[role="alertdialog"][class*="agenda"] {
+  font-size: 18px;
+  color: var(--agenda-ink);
+  line-height: var(--agenda-leading-body);
+}
+
+/* FTU Tour highlight ring */
+.tour-highlight {
+  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--primary));
+  border-radius: 0.375rem;
+  transition: box-shadow 200ms ease;
+}

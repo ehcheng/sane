@@ -1,0 +1,13 @@
+node_modules
+.next
+.git
+.gitignore
+.env
+.env.*
+*.md
+!content/*.md
+.claude
+tests
+src/__tests__
+vitest.config.ts
+_github_excluded

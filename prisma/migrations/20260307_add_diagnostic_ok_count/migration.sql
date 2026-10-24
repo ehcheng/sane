@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "DiagnosticRun" ADD COLUMN "okCount" INTEGER NOT NULL DEFAULT 0;
